@@ -41,15 +41,38 @@ h1{
   display: flex;
   text-align: center;
   margin-top: 10px;
-  margin-left: 200px;
-  width: 250px;
-  height: 30px;
-  border-radius: 100px;
+  margin-left: 170px;
+  width: 150px;
+  height: 10px;
+  border-radius: 10px;
 }
 
 .item{
-  padding: 50px;
-  margin-bottom: 40px;
+  padding: 20px;
+  margin-bottom: 20px;
   border-bottom: 4px;
+}
+.item .itemt{
   background: none;
+  outline: none;
+  color: rgb(103, 118, 201);
+  border: none;
+  width: 350px;
+  font-size: 20px;
+}
+
+.editb{
+  font-size: 20px;
+  margin: 0 5px;
+  font-family: cursive;
+  background: none;
+  color: aqua;
+}
+
+.removeb{
+  font-size: 20px;
+  margin: 0 5px;
+  font-family: cursive;
+  background: none;
+  color: aqua;
 }
