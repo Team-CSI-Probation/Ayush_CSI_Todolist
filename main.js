@@ -1,59 +1,85 @@
- const addb = document.querySelector('.addb');
- var enter = document.querySelector('.enter');
- const container = document.querySelector('.container');
+const container = document.querySelector('.container');
+var inputValue = document.querySelector('.input');
+const add = document.querySelector('.add');
 
- class item{
-     constructor(itemName){
-         this.createDiv(itemName);
-     }
+if(window.localStorage.getItem("todos") == undefined){
+     var todos = [];
+     window.localStorage.setItem("todos", JSON.stringify(todos));
+}
 
-     createDiv(itemName){
-         let input = document.createElement('enter');
-         input.value = itemName;
-         input.disabled = true;
-         input.classList.add('itemt');
-         input.type = "text";
-
-         let itembox = document.createElement('div');
-         editb.innerHTML = "EDIT";
-         itembox.classList.add('item');
-
-         let editb = document.createElement('button');
-         removeb.innerHTML = "REMOVE";
-         editb.classList.add('editb');
-
-         let removeb = document.createElement('button');
-         removeb.classList.add('removeb');
-
-         container.appendChild(itembox);
-
-         itembox.appendChild(enter);
-         itembox.appendChild(editb);
-         itembox.appendChild(removeb);
+var todosEX = window.localStorage.getItem("todos");
+var todos = JSON.parse(todosEX);
 
 
-         editb.addEventListener('click', () => this.edit(enter));
+class item{
+	constructor(name){
+		this.createItem(name);
+	}
+    createItem(name){
+    	var itemBox = document.createElement('div');
+        itemBox.classList.add('item');
 
-         removeb.addEventListener('click', () => this.remove(itembox));
-      
-        }
+    	var input = document.createElement('input');
+    	input.type = "text";
+    	input.disabled = true;
+    	input.value = name;
+    	input.classList.add('item_input');
 
-        edit(itemt){
-            input.disabled = !.disabled;
-        }
+    	var edit = document.createElement('button');
+    	edit.classList.add('edit');
+    	edit.innerHTML = "EDIT";
+    	edit.addEventListener('click', () => this.edit(input, name));
 
-        function check(){
-            if(input1.value != ""){
-                new item(input1.value);
-                input1.value = "";
-        }
+    	var remove = document.createElement('button');
+    	remove.classList.add('remove');
+    	remove.innerHTML = "REMOVE";
+    	remove.addEventListener('click', () => this.remove(itemBox, name));
+
+    	container.appendChild(itemBox);
+
+        itemBox.appendChild(input);
+        itemBox.appendChild(edit);
+        itemBox.appendChild(remove);
 
     }
 
-    addb.addEventListener('click',check);
-    window.addEventListener('keydown',(e) => {
-        if(e.which == 13){
-            check();
+    edit(input, name){
+        if(input.disabled == true){
+           input.disabled = !input.disabled;
         }
-    })
+    	else{
+            input.disabled = !input.disabled;
+            let indexof = todos.indexOf(name);
+            todos[indexof] = input.value;
+            window.localStorage.setItem("todos", JSON.stringify(todos));
+        }
+    }
 
+    remove(itemBox, name){
+        itemBox.parentNode.removeChild(itemBox);
+        let index = todos.indexOf(name);
+        todos.splice(index, 1);
+        window.localStorage.setItem("todos", JSON.stringify(todos));
+    }
+}
+
+add.addEventListener('click', check);
+window.addEventListener('keydown', (e) => {
+	if(e.which == 13){
+		check();
+	}
+})
+
+function check(){
+	if(inputValue.value != ""){
+		new item(inputValue.value);
+        todos.push(inputValue.value);
+        window.localStorage.setItem("todos", JSON.stringify(todos));
+		inputValue.value = "";
+	}
+}
+
+
+for (var v = 0 ; v < todos.length ; v++){
+    new item(todos[v]);
+}
